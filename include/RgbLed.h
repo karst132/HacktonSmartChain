@@ -9,7 +9,7 @@ private:
     int bluePin;
 
 public:
-    explicit RgbLed(int redPin = -1, int greenPin = -1, int bluePin = -1);
+    explicit RgbLed(int redPin, int greenPin, int bluePin);
 
     void on() override;
     void off() override;

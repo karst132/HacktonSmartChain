@@ -7,7 +7,7 @@ private:
     int pin;
 
 public:
-    explicit Led(int pin = -1);
+    explicit Led(int pin);
 
     void on() override;
     void off() override;
