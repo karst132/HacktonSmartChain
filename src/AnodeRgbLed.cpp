@@ -17,6 +17,22 @@ AnodeRgbLed::AnodeRgbLed(int redPin, int greenPin, int bluePin)
     Serial.println(bluePin);
 }
 
+void AnodeRgbLed::on() {
+    Serial.println("Anode RGB LED: ON (White)");
+    // For common anode: 0 = full brightness
+    analogWrite(redPin, 0);
+    analogWrite(greenPin, 0);
+    analogWrite(bluePin, 0);
+}
+
+void AnodeRgbLed::off() {
+    Serial.println("Anode RGB LED: OFF");
+    // For common anode: 255 = off
+    analogWrite(redPin, 255);
+    analogWrite(greenPin, 255);
+    analogWrite(bluePin, 255);
+}
+
 void AnodeRgbLed::set_color(int red, int green, int blue) {
     Serial.print("Anode RGB LED: Setting color to (");
     Serial.print(red);

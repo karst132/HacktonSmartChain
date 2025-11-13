@@ -30,8 +30,9 @@ void setup() {
 }
 
 void loop() {
+    Serial.println("Main loop running...");
     if (facade != nullptr) {
         facade->loop();
     }
-    delay(50);
+    delay(500);
 }
