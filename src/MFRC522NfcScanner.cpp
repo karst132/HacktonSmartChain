@@ -1,19 +1,19 @@
-#include "MFRC522Nfc.h"
+#include "MFRC522NfcScanner.h"
 #include <Arduino.h>
 #include <SPI.h>
 
-MFRC522Nfc::MFRC522Nfc(uint8_t chipSelectPin, uint8_t resetPin)
+MFRC522NfcScanner::MFRC522NfcScanner(uint8_t chipSelectPin, uint8_t resetPin)
     : mfrc522(chipSelectPin, resetPin) {
     lastTagUid[0] = '\0';
 }
 
-void MFRC522Nfc::init() {
+void MFRC522NfcScanner::init() {
     SPI.begin();
     mfrc522.PCD_Init();
     Serial.println("MFRC522 NFC Reader initialized");
 }
 
-bool MFRC522Nfc::is_tag_present() {
+bool MFRC522NfcScanner::is_tag_present() {
     // Look for new cards
     if (!mfrc522.PICC_IsNewCardPresent()) {
         return false;
@@ -27,7 +27,7 @@ bool MFRC522Nfc::is_tag_present() {
     return true;
 }
 
-void MFRC522Nfc::read_tag() {
+void MFRC522NfcScanner::read_tag() {
     // Convert UID to string
     String uidString = "";
     for (byte i = 0; i < mfrc522.uid.size; i++) {
@@ -45,11 +45,11 @@ void MFRC522Nfc::read_tag() {
     mfrc522.PCD_StopCrypto1();
 }
 
-const char* MFRC522Nfc::get_last_tag_uid() {
+const char* MFRC522NfcScanner::get_last_tag_uid() {
     return lastTagUid;
 }
 
-bool MFRC522Nfc::write_data(uint8_t block, const uint8_t* data, uint8_t length) {
+bool MFRC522NfcScanner::write_data(uint8_t block, const uint8_t* data, uint8_t length) {
     if (length > 16) {
         Serial.println("Error: Data too large (max 16 bytes per block)");
         return false;
@@ -75,7 +75,7 @@ bool MFRC522Nfc::write_data(uint8_t block, const uint8_t* data, uint8_t length) 
     return true;
 }
 
-bool MFRC522Nfc::read_data(uint8_t block, uint8_t* data, uint8_t length) {
+bool MFRC522NfcScanner::read_data(uint8_t block, uint8_t* data, uint8_t length) {
     if (length > 16) {
         Serial.println("Error: Buffer too large (max 16 bytes per block)");
         return false;

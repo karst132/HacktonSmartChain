@@ -1,15 +1,15 @@
 #pragma once
 
-#include "INfc.h"
+#include "INfcScanner.h"
 #include <MFRC522.h>
 
-class MFRC522Nfc : public INfc {
+class MFRC522NfcScanner : public INfcScanner {
 private:
     MFRC522 mfrc522;
     char lastTagUid[18];  // String representation of UID
 
 public:
-    MFRC522Nfc(uint8_t chipSelectPin, uint8_t resetPin);
+    MFRC522NfcScanner(uint8_t chipSelectPin, uint8_t resetPin);
     
     void init();
     bool is_tag_present() override;

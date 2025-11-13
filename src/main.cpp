@@ -2,7 +2,7 @@
 #include "RelationStateFacade.h"
 #include "AnodeRgbLed.h"
 #include "Button.h"
-#include "MFRC522Nfc.h"
+#include "MFRC522NfcScanner.h"
 #include "RelationMatchContext.h"
 #include "states/SetupState.h"
 #include "states/ReadyState.h"
@@ -27,7 +27,7 @@ const int COLOR_COUNT = 2;
 IRgbLed* rgbLed = nullptr;
 IButton* button = nullptr;
 RelationStateFacade* facade = nullptr;
-INfc* nfc = nullptr;
+INfcScanner* nfc = nullptr;
 RelationMatchContext* matchContext = nullptr;
 
 void setup() {
@@ -40,8 +40,8 @@ void setup() {
     button = new Button(BUTTON_PIN);
     
     // Instantiate NFC reader
-    nfc = new MFRC522Nfc(NFC_CS_PIN, NFC_RST_PIN);
-    ((MFRC522Nfc*)nfc)->init();
+    nfc = new MFRC522NfcScanner(NFC_CS_PIN, NFC_RST_PIN);
+    ((MFRC522NfcScanner*)nfc)->init();
 
     // Create initial state (SetupState)
     IMatchState* initialState = new SetupState(nullptr, 0, nfc);

@@ -2,7 +2,7 @@
 
 #include <stdint.h>
 
-class INfc {
+class INfcScanner {
 public:
     virtual bool is_tag_present() = 0;
     virtual void read_tag() = 0;

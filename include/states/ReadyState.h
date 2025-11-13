@@ -3,16 +3,16 @@
 #include "IMatchState.h"
 
 class ILed;
-class INfc;
+class INfcScanner;
 
 class ReadyState : public IMatchState {
 private:
     ILed** leds;
     int ledCount;
-    INfc* nfc;
+    INfcScanner* nfc;
 
 public:
-    ReadyState(ILed** leds, int ledCount, INfc* nfc);
+    ReadyState(ILed** leds, int ledCount, INfcScanner* nfc);
 
     void scan_tag() override;
 };

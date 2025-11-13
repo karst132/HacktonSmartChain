@@ -1,8 +1,8 @@
 #pragma once
 
-#include "INfc.h"
+#include "INfcScanner.h"
 
-class MockNfcScanner : public INfc {
+class MockNfcScanner : public INfcScanner {
 private:
     char lastTagUid[18];
     uint8_t mockData[16];
