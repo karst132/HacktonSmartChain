@@ -3,12 +3,12 @@
 #include "IMatchState.h"
 
 class RelationMatchContext;  // Forward declaration
-class Led;
+class ILed;
 
 class SetupState : public IMatchState {
 private:
     RelationMatchContext* context;
-    Led** leds;
+    ILed** leds;
 
 public:
     SetupState();

@@ -1,8 +1,7 @@
 #include "RelationStateFacade.h"
 
-RelationStateFacade::RelationStateFacade() 
-    : rgbLed(-1, -1, -1), button(-1) {
-    // Constructor implementation
+RelationStateFacade::RelationStateFacade(IRgbLed* rgbLed, IButton* button) 
+    : rgbLed(rgbLed), button(button) {
 }
 
 void RelationStateFacade::loop() {

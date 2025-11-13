@@ -1,12 +1,13 @@
 #pragma once
 
 #include "states/IMatchState.h"
-#include "Led.h"
+#include "ILed.h"
 
 class RelationMatchContext {
 private:
     IMatchState* state;
-    Led** leds;
+    ILed** leds;
+    int ledCount;
 
 public:
     explicit RelationMatchContext(IMatchState* initialState);

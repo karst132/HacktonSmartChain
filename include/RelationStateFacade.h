@@ -1,15 +1,15 @@
 #pragma once
 
-#include "Button.h"
-#include "RgbLed.h"
+#include "IButton.h"
+#include "IRgbLed.h"
 
 class RelationStateFacade {
 private:
-    RgbLed rgbLed;
-    Button button;
+    IRgbLed* rgbLed;
+    IButton* button;
 
 public:
-    RelationStateFacade();
+    RelationStateFacade(IRgbLed* rgbLed, IButton* button);
     ~RelationStateFacade() = default;
 
     void loop();

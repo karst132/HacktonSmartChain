@@ -1,14 +1,15 @@
 #pragma once
 
-class Led {
+#include "ILed.h"
+
+class Led : public ILed {
 private:
     int pin;
 
 public:
     explicit Led(int pin = -1);
-    virtual ~Led() = default;
+    ~Led() override = default;
 
-    virtual void toggle();
-    virtual void on();
-    virtual void off();
+    void on() override;
+    void off() override;
 };
