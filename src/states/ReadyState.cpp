@@ -1,10 +1,10 @@
 #include "states/ReadyState.h"
 #include "RelationMatchContext.h"
-#include "INFC.h"
+#include "INfc.h"
 #include "ILed.h"
 #include <Arduino.h>
 
-ReadyState::ReadyState(ILed** leds, int ledCount, INFC* nfc)
+ReadyState::ReadyState(ILed** leds, int ledCount, INfc* nfc)
     : leds(leds), ledCount(ledCount), nfc(nfc) {
     Serial.println("ReadyState: Ready to match NFC tags");
 }

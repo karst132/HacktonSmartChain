@@ -2,7 +2,7 @@
 
 #include "states/IMatchState.h"
 #include "ILed.h"
-#include "INFC.h"
+#include "INfc.h"
 
 class RelationMatchContext {
 private:

@@ -1,6 +1,6 @@
 #pragma once
 
-class INFC {
+class INfc {
 public:
     virtual bool is_tag_present() = 0;
     virtual void read_tag() = 0;

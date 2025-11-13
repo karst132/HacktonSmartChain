@@ -1,10 +1,10 @@
 #include "states/SetupState.h"
 #include "RelationMatchContext.h"
-#include "INFC.h"
+#include "INfc.h"
 #include "ILed.h"
 #include <Arduino.h>
 
-SetupState::SetupState(ILed** leds, int ledCount, INFC* nfc)
+SetupState::SetupState(ILed** leds, int ledCount, INfc* nfc)
     : leds(leds), ledCount(ledCount), nfc(nfc) {
     Serial.println("SetupState: Waiting for NFC tags to register");
 }
