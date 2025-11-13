@@ -14,22 +14,22 @@ ReadyState::ReadyState(ILed** leds, int ledCount, INfcScanner* nfc,
 void ReadyState::scan_tag(RelationMatchContext* context) {
     if (nfc == nullptr) return;
     
-    if (nfc->is_tag_present()) {
-        nfc->read_tag();
-        const char* uid = nfc->get_last_tag_uid();
-        
-        Serial.print("ReadyState: Tag detected - ");
-        Serial.println(uid);
-        
-        // Read the random number from block 5
-        uint8_t readData[1] = {0};
-        bool readSuccess = nfc->read_data(pairingBlock, readData, 1);
-        
-        if (readSuccess) {
-            Serial.print("ReadyState: Random number read from block 5: ");
-            Serial.println(readData[0]);
-        } else {
-            Serial.println("ReadyState: Failed to read random number from tag");
-        }
+    if (!nfc->is_tag_present()) {
+        return;
     }
+
+    nfc->read_tag();
+    const char* uid = nfc->get_last_tag_uid();
+    Serial.print("ReadyState: Tag detected - ");
+    Serial.println(uid);
+    
+    uint8_t readData[1] = {0};
+    bool readSuccess = nfc->read_data(pairingBlock, readData, 1);
+    if (!readSuccess) {
+        Serial.println("ReadyState: Error reading data from tag");
+        return;
+    }
+    
+    Serial.print("ReadyState: Random number read from block 5: ");
+    Serial.println(readData[0]);
 }
