@@ -1,22 +1,35 @@
 @startuml
-class Program {
-  void setup()
-  void loop()
-}
-
-class Led {
-    - pin
-    
-    + toggle()
+interface ILed {
     + on()
     + off()
 }
 
-class RgbLed extends Led {
+interface IRgbLed extends ILed {
     + set_color(red, green, blue)
 }
 
-class Button {
+interface IButton {
+    + has_been_pressed()
+}
+
+class Led implements ILed {
+    - pin
+    
+    + on()
+    + off()
+}
+
+class RgbLed implements IRgbLed {
+    - redPin
+    - greenPin
+    - bluePin
+    
+    + on()
+    + off()
+    + set_color(red, green, blue)
+}
+
+class Button implements IButton {
     - pin
     - last_press_down_timestamp
 
@@ -24,15 +37,15 @@ class Button {
 }
 
 class RelationStateFacade {
-    - rgbLed: RgbLed
-    - button: Button
+    - rgbLed: IRgbLed
+    - button: IButton
     
     + loop()
 }
 
 class RelationMatchContext {
     - IMatchState state
-    - Led[] leds 
+    - ILed[] leds 
     
     + RelationMatchContext(IMatchState initialState)
     + transition_state(IMatchState state)
@@ -45,24 +58,28 @@ interface IMatchState {
 
 class SetupState {
     - RelationMatchContext context
+    - ILed[] leds
+    
     + set_context(RelationMatchContext context)
     + scan_tag()
 }
 
 class ReadyState {
     - RelationMatchContext context
+    - ILed[] leds
+    
     + set_context(RelationMatchContext context)
     + scan_tag()
 }
 
-RgbLed --|> Led
-RelationStateFacade o-- Button
-RelationStateFacade o-- RgbLed
-RelationMatchContext o-- IMatchState
+RelationStateFacade --o IButton
+RelationStateFacade --o IRgbLed
+RelationMatchContext --o IMatchState
+RelationMatchContext o-- ILed
 SetupState ..|> IMatchState
-SetupState o-- Led
+SetupState o-- ILed
 ReadyState ..|> IMatchState
-ReadyState o-- Led
+ReadyState o-- ILed
 
 Program --> RelationStateFacade
 Program --> RelationMatchContext
