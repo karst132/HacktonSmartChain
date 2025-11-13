@@ -31,8 +31,9 @@ void setup() {
 
 void loop() {
     Serial.println("Main loop running...");
-    if (facade != nullptr) {
-        facade->loop();
-    }
+    rgbLed->on();
+    // if (facade != nullptr) {
+    //     facade->loop();
+    // }
     delay(500);
 }
