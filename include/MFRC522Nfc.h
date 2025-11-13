@@ -15,4 +15,6 @@ public:
     bool is_tag_present() override;
     void read_tag() override;
     const char* get_last_tag_uid() override;
+    bool write_data(uint8_t block, const uint8_t* data, uint8_t length) override;
+    bool read_data(uint8_t block, uint8_t* data, uint8_t length) override;
 };

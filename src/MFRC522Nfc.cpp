@@ -48,3 +48,57 @@ void MFRC522Nfc::read_tag() {
 const char* MFRC522Nfc::get_last_tag_uid() {
     return lastTagUid;
 }
+
+bool MFRC522Nfc::write_data(uint8_t block, const uint8_t* data, uint8_t length) {
+    if (length > 16) {
+        Serial.println("Error: Data too large (max 16 bytes per block)");
+        return false;
+    }
+    
+    // Prepare data buffer (16 bytes for MFRC522 block)
+    uint8_t buffer[16] = {0};
+    for (int i = 0; i < length; i++) {
+        buffer[i] = data[i];
+    }
+    
+    // Write to card
+    MFRC522::StatusCode status = mfrc522.MIFARE_Write(block, buffer, 16);
+    
+    if (status != MFRC522::STATUS_OK) {
+        Serial.print("Write failed: ");
+        Serial.println(mfrc522.GetStatusCodeName(status));
+        return false;
+    }
+    
+    Serial.print("Data written to block ");
+    Serial.println(block);
+    return true;
+}
+
+bool MFRC522Nfc::read_data(uint8_t block, uint8_t* data, uint8_t length) {
+    if (length > 16) {
+        Serial.println("Error: Buffer too large (max 16 bytes per block)");
+        return false;
+    }
+    
+    // Read from card
+    uint8_t buffer[18];
+    uint8_t bufferSize = sizeof(buffer);
+    
+    MFRC522::StatusCode status = mfrc522.MIFARE_Read(block, buffer, &bufferSize);
+    
+    if (status != MFRC522::STATUS_OK) {
+        Serial.print("Read failed: ");
+        Serial.println(mfrc522.GetStatusCodeName(status));
+        return false;
+    }
+    
+    // Copy requested data
+    for (int i = 0; i < length; i++) {
+        data[i] = buffer[i];
+    }
+    
+    Serial.print("Data read from block ");
+    Serial.println(block);
+    return true;
+}
