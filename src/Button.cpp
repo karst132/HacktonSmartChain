@@ -4,6 +4,10 @@
 Button::Button(int pin) 
     : pin(pin), last_state(HIGH), pressed(false) {
     pinMode(pin, INPUT);
+
+    Serial.println("Button initialized");
+    Serial.print("Pin: ");
+    Serial.print(pin);
 }
 
 void Button::update() {
