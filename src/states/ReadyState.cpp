@@ -32,4 +32,29 @@ void ReadyState::scan_tag(RelationMatchContext* context) {
     
     Serial.print("ReadyState: Chain number read from block 5: ");
     Serial.println(readData[0]);
+
+    int distance = calculate_distance_wrapping(chainNumber, readData[0]);
+    Serial.print("ReadyState: Calculated distance: ");
+    Serial.println(distance);
+
+    int mappedDistance = map(distance, 0, 255, 0, ledCount);
+    Serial.print("ReadyState: Mapped distance to LED count: ");
+    Serial.println(mappedDistance);
+
+    turn_on_leds(mappedDistance);
+    Serial.println("ReadyState: LEDs updated based on distance");
+}
+
+void ReadyState::turn_on_leds(int amount) {
+    for (int i = 0; i < ledCount; ++i) {
+        if (leds[i] == nullptr) {
+            continue;
+        }
+        
+        if (i < amount) {
+            leds[i]->on();
+        } else {
+            leds[i]->off();
+        }
+    }
 }

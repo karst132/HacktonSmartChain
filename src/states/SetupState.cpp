@@ -2,8 +2,10 @@
 #include "RelationMatchContext.h"
 #include "INfcScanner.h"
 #include "ILed.h"
-#include "states/ReadyState.h"
 #include <Arduino.h>
+
+
+
 
 SetupState::SetupState(ILed** leds, int ledCount, INfcScanner* nfc, 
                        uint8_t pairingBlock, uint8_t chainNumber, 
@@ -12,6 +14,12 @@ SetupState::SetupState(ILed** leds, int ledCount, INfcScanner* nfc,
       pairingBlock(pairingBlock), chainNumber(chainNumber),
       nextState(nextState) {
     Serial.println("SetupState: Waiting for NFC tags to register");
+
+    for (int i = 0; i < ledCount; i += 2) {
+        if (leds[i] != nullptr) {
+            leds[i]->on(); 
+        }
+    }
 }
 
 void SetupState::scan_tag(RelationMatchContext* context) {
@@ -38,7 +46,26 @@ void SetupState::scan_tag(RelationMatchContext* context) {
     Serial.println(chainNumber);
     
     // TODO: Indicate success via LEDs
+    for (int i = 1; i < ledCount; i += 2) {
+        if (leds[i] != nullptr) {
+            leds[i]->on(); 
+        }
+    }
     
     context->transition_state(nextState);
     Serial.println("SetupState: Transitioning to Next State");
+}
+
+void SetupState::turn_half_leds_on(bool even) {
+    for (int i = 0; i < ledCount; ++i) {
+        if (leds[i] == nullptr) {
+            continue;
+        }
+
+        if ((i % 2 == 0) == even) {
+            leds[i]->on();
+        } else {
+            leds[i]->off();
+        }
+    }
 }

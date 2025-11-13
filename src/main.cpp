@@ -2,6 +2,7 @@
 #include "RelationStateFacade.h"
 #include "AnodeRgbLed.h"
 #include "Button.h"
+#include "Led.h"
 #include "MFRC522NfcScanner.h"
 #include "RelationMatchContext.h"
 #include "states/SetupState.h"
@@ -12,6 +13,10 @@ const int RGB_RED_PIN = A0;
 const int RGB_GREEN_PIN = A1;
 const int RGB_BLUE_PIN = A2;
 const int BUTTON_PIN = 6;
+
+// LED pins array
+const int LED_PINS[] = {2, 3, 4, 7, 8};
+const int LED_COUNT = 5;
 
 // NFC SPI pin definitions
 const int NFC_CS_PIN = 10;      // SS (Slave Select)
@@ -32,6 +37,7 @@ IRgbLed* rgbLed = nullptr;
 IButton* button = nullptr;
 RelationStateFacade* facade = nullptr;
 INfcScanner* nfc = nullptr;
+ILed* leds[LED_COUNT] = {nullptr};  // Array of LED pointers
 RelationMatchContext* matchContext = nullptr;
 
 void setup() {
@@ -48,14 +54,18 @@ void setup() {
     // Instantiate components in setup
     rgbLed = new AnodeRgbLed(RGB_RED_PIN, RGB_GREEN_PIN, RGB_BLUE_PIN);
     button = new Button(BUTTON_PIN);
-    // TODO LEDs
+    
+    // Initialize LED array
+    for (int i = 0; i < LED_COUNT; i++) {
+        leds[i] = new Led(LED_PINS[i]);
+    }
     
     nfc = new MFRC522NfcScanner(NFC_CS_PIN, NFC_RST_PIN);
     ((MFRC522NfcScanner*)nfc)->init();
 
 
-    IMatchState* readyState = new ReadyState(nullptr, 0, nfc, NFC_PAIRING_BLOCK, NFC_CHAIN_NUMBER);
-    IMatchState* setupState = new SetupState(nullptr, 0, nfc, NFC_PAIRING_BLOCK, NFC_CHAIN_NUMBER, readyState);
+    IMatchState* readyState = new ReadyState(leds, LED_COUNT, nfc, NFC_PAIRING_BLOCK, NFC_CHAIN_NUMBER);
+    IMatchState* setupState = new SetupState(leds, LED_COUNT, nfc, NFC_PAIRING_BLOCK, NFC_CHAIN_NUMBER, readyState);
     matchContext = new RelationMatchContext(setupState);
     
 
