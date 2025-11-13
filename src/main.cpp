@@ -7,7 +7,7 @@
 const int RGB_RED_PIN = A0;
 const int RGB_GREEN_PIN = A1;
 const int RGB_BLUE_PIN = A2;
-const int BUTTON_PIN = 12;
+const int BUTTON_PIN = 6;
 
 const int RGB_COLORS[][3] = {
     {255, 104, 229}, 
