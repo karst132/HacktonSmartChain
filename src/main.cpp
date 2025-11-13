@@ -26,6 +26,9 @@ const int NFC_RST_PIN = 5;      // RST (Reset)
 const uint8_t NFC_PAIRING_BLOCK = 5;      // Block where pairing data is stored
 uint8_t NFC_CHAIN_NUMBER;                 // Random chain number (initialized in setup)
 
+// LED configuration constants
+const unsigned long LED_TIMEOUT_DURATION = 5000; // Timeout in milliseconds
+
 const int RGB_COLORS[][3] = {
     {255, 104, 229}, 
     {0, 0, 255}
@@ -64,7 +67,7 @@ void setup() {
     ((MFRC522NfcScanner*)nfc)->init();
 
 
-    IMatchState* readyState = new ReadyState(leds, LED_COUNT, nfc, NFC_PAIRING_BLOCK, NFC_CHAIN_NUMBER);
+    IMatchState* readyState = new ReadyState(leds, LED_COUNT, nfc, NFC_PAIRING_BLOCK, NFC_CHAIN_NUMBER, LED_TIMEOUT_DURATION);
     IMatchState* setupState = new SetupState(leds, LED_COUNT, nfc, NFC_PAIRING_BLOCK, NFC_CHAIN_NUMBER, readyState);
     matchContext = new RelationMatchContext(setupState);
     

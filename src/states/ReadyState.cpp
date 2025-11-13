@@ -5,14 +5,26 @@
 #include <Arduino.h>
 
 ReadyState::ReadyState(ILed** leds, int ledCount, INfcScanner* nfc,
-                       uint8_t pairingBlock, uint8_t chainNumber)
+                       uint8_t pairingBlock, uint8_t chainNumber,
+                       unsigned long ledTimeoutDuration)
     : leds(leds), ledCount(ledCount), nfc(nfc),
-      pairingBlock(pairingBlock), chainNumber(chainNumber) {
+      pairingBlock(pairingBlock), chainNumber(chainNumber),
+      ledTurnOnTime(0), ledsActive(false),
+      ledTimeoutDuration(ledTimeoutDuration) {
     Serial.println("ReadyState: Ready to match NFC tags");
 }
 
 void ReadyState::scan_tag(RelationMatchContext* context) {
     if (nfc == nullptr) return;
+    
+    // Check if LEDs should be turned off after timeout duration
+    if (ledsActive && (millis() - ledTurnOnTime) >= ledTimeoutDuration) {
+        turn_off_all_leds();
+        ledsActive = false;
+        Serial.print("ReadyState: LEDs turned off (");
+        Serial.print(ledTimeoutDuration);
+        Serial.println("ms timeout)");
+    }
     
     if (!nfc->is_tag_present()) {
         return;
@@ -42,6 +54,8 @@ void ReadyState::scan_tag(RelationMatchContext* context) {
     Serial.println(mappedDistance);
 
     turn_on_leds(mappedDistance);
+    ledTurnOnTime = millis();
+    ledsActive = true;
     Serial.println("ReadyState: LEDs updated based on distance");
 }
 
@@ -56,5 +70,14 @@ void ReadyState::turn_on_leds(int amount) {
         } else {
             leds[i]->off();
         }
+    }
+}
+
+void ReadyState::turn_off_all_leds() {
+    for (int i = 0; i < ledCount; ++i) {
+        if (leds[i] == nullptr) {
+            continue;
+        }
+        leds[i]->off();
     }
 }
