@@ -11,7 +11,6 @@ private:
 
 public:
     explicit RelationMatchContext(IMatchState* initialState);
-    ~RelationMatchContext() = default;
 
     void transition_state(IMatchState* state);
     void scan_tag();

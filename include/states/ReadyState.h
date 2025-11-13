@@ -12,7 +12,6 @@ private:
 
 public:
     ReadyState();
-    ~ReadyState() override = default;
 
     void set_context(RelationMatchContext* context);
     void scan_tag() override;

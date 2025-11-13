@@ -10,7 +10,6 @@ private:
 
 public:
     RelationStateFacade(IRgbLed* rgbLed, IButton* button);
-    ~RelationStateFacade() = default;
 
     void loop();
 };
