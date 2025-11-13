@@ -9,7 +9,6 @@ private:
 
 public:
     explicit Button(int pin = -1);
-    ~Button() override = default;
 
     bool has_been_pressed() override;
 };

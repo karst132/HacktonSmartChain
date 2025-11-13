@@ -8,7 +8,6 @@ private:
 
 public:
     explicit Led(int pin = -1);
-    ~Led() override = default;
 
     void on() override;
     void off() override;
