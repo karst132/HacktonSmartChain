@@ -16,6 +16,6 @@ void RelationMatchContext::transition_state(IMatchState* state) {
 
 void RelationMatchContext::scan_tag() {
     if (state != nullptr) {
-        state->scan_tag();
+        state->scan_tag(this);
     }
 }

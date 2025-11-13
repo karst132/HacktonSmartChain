@@ -5,7 +5,6 @@
 #include "MFRC522NfcScanner.h"
 #include "RelationMatchContext.h"
 #include "states/SetupState.h"
-#include "states/ReadyState.h"
 
 // Pin definitions
 const int RGB_RED_PIN = A0;
@@ -16,6 +15,10 @@ const int BUTTON_PIN = 6;
 // NFC SPI pin definitions
 const int NFC_CS_PIN = 10;      // SS (Slave Select)
 const int NFC_RST_PIN = 5;      // RST (Reset)
+
+// NFC configuration constants
+const uint8_t NFC_PAIRING_BLOCK = 5;      // Block where pairing data is stored
+uint8_t NFC_PAIRING_SECRET;               // Random pairing secret (initialized in setup)
 
 const int RGB_COLORS[][3] = {
     {255, 104, 229}, 
@@ -34,21 +37,26 @@ void setup() {
     Serial.begin(115200);
     delay(100);
     
+    // Initialize random seed and generate pairing secret
+    randomSeed(analogRead(0));
+    NFC_PAIRING_SECRET = random(0, 256);
+    Serial.print("Generated NFC Pairing Secret: ");
+    Serial.println(NFC_PAIRING_SECRET);
     
+
     // Instantiate components in setup
     rgbLed = new AnodeRgbLed(RGB_RED_PIN, RGB_GREEN_PIN, RGB_BLUE_PIN);
     button = new Button(BUTTON_PIN);
+    // TODO LEDs
     
-    // Instantiate NFC reader
     nfc = new MFRC522NfcScanner(NFC_CS_PIN, NFC_RST_PIN);
     ((MFRC522NfcScanner*)nfc)->init();
 
-    // Create initial state (SetupState)
-    IMatchState* initialState = new SetupState(nullptr, 0, nfc);
-    // Create relation match context with state
+
+    IMatchState* initialState = new SetupState(nullptr, 0, nfc, NFC_PAIRING_BLOCK, NFC_PAIRING_SECRET);
     matchContext = new RelationMatchContext(initialState);
     
-    // Create facade for button control
+
     facade = new RelationStateFacade(rgbLed, button, (int(*)[3])RGB_COLORS, COLOR_COUNT);
 }
 

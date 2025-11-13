@@ -1,8 +1,6 @@
 #pragma once
 
 #include "states/IMatchState.h"
-#include "ILed.h"
-#include "INfcScanner.h"
 
 class RelationMatchContext {
 private:
