@@ -12,11 +12,11 @@ private:
     int ledCount;
     INfcScanner* nfc;
     uint8_t pairingBlock;
-    uint8_t pairingSecret;
+    uint8_t chainNumber;
 
 public:
     ReadyState(ILed** leds, int ledCount, INfcScanner* nfc,
-               uint8_t pairingBlock, uint8_t pairingSecret);
+               uint8_t pairingBlock, uint8_t chainNumber);
 
     void scan_tag(RelationMatchContext* context) override;
 };

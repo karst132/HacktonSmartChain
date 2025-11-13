@@ -19,7 +19,7 @@ const int NFC_RST_PIN = 5;      // RST (Reset)
 
 // NFC configuration constants
 const uint8_t NFC_PAIRING_BLOCK = 5;      // Block where pairing data is stored
-uint8_t NFC_PAIRING_SECRET;               // Random pairing secret (initialized in setup)
+uint8_t NFC_CHAIN_NUMBER;                 // Random chain number (initialized in setup)
 
 const int RGB_COLORS[][3] = {
     {255, 104, 229}, 
@@ -38,11 +38,11 @@ void setup() {
     Serial.begin(115200);
     delay(100);
     
-    // Initialize random seed and generate pairing secret
+    // Initialize random seed and generate chain number
     randomSeed(analogRead(0));
-    NFC_PAIRING_SECRET = random(0, 256);
-    Serial.print("Generated NFC Pairing Secret: ");
-    Serial.println(NFC_PAIRING_SECRET);
+    NFC_CHAIN_NUMBER = random(0, 256);
+    Serial.print("Generated NFC Chain Number: ");
+    Serial.println(NFC_CHAIN_NUMBER);
     
 
     // Instantiate components in setup
@@ -54,8 +54,8 @@ void setup() {
     ((MFRC522NfcScanner*)nfc)->init();
 
 
-    IMatchState* readyState = new ReadyState(nullptr, 0, nfc, NFC_PAIRING_BLOCK, NFC_PAIRING_SECRET);
-    IMatchState* setupState = new SetupState(nullptr, 0, nfc, NFC_PAIRING_BLOCK, NFC_PAIRING_SECRET, readyState);
+    IMatchState* readyState = new ReadyState(nullptr, 0, nfc, NFC_PAIRING_BLOCK, NFC_CHAIN_NUMBER);
+    IMatchState* setupState = new SetupState(nullptr, 0, nfc, NFC_PAIRING_BLOCK, NFC_CHAIN_NUMBER, readyState);
     matchContext = new RelationMatchContext(setupState);
     
 

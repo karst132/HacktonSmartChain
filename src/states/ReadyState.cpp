@@ -5,9 +5,9 @@
 #include <Arduino.h>
 
 ReadyState::ReadyState(ILed** leds, int ledCount, INfcScanner* nfc,
-                       uint8_t pairingBlock, uint8_t pairingSecret)
+                       uint8_t pairingBlock, uint8_t chainNumber)
     : leds(leds), ledCount(ledCount), nfc(nfc),
-      pairingBlock(pairingBlock), pairingSecret(pairingSecret) {
+      pairingBlock(pairingBlock), chainNumber(chainNumber) {
     Serial.println("ReadyState: Ready to match NFC tags");
 }
 
@@ -30,6 +30,6 @@ void ReadyState::scan_tag(RelationMatchContext* context) {
         return;
     }
     
-    Serial.print("ReadyState: Random number read from block 5: ");
+    Serial.print("ReadyState: Chain number read from block 5: ");
     Serial.println(readData[0]);
 }
