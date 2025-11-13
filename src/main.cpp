@@ -26,4 +26,5 @@ void loop() {
     if (facade != nullptr) {
         facade->loop();
     }
+    delay(1000);
 }
