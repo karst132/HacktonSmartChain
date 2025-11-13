@@ -4,14 +4,14 @@
 #include "Button.h"
 
 // Pin definitions
-const int RGB_RED_PIN = A2;
-const int RGB_GREEN_PIN = A0;
-const int RGB_BLUE_PIN = A1;
+const int RGB_RED_PIN = A0;
+const int RGB_GREEN_PIN = A1;
+const int RGB_BLUE_PIN = A2;
 const int BUTTON_PIN = 12;
 
 const int RGB_COLORS[][3] = {
-    {255, 0, 0},     
-    {0, 0, 255}     
+    {255, 104, 229}, 
+    {0, 0, 255}
 };
 const int COLOR_COUNT = 2;
 
@@ -31,9 +31,8 @@ void setup() {
 
 void loop() {
     Serial.println("Main loop running...");
-    rgbLed->on();
-    // if (facade != nullptr) {
-    //     facade->loop();
-    // }
+    if (facade != nullptr) {
+        facade->loop();
+    }
     delay(500);
 }
