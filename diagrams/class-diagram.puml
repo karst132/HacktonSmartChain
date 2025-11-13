@@ -1,0 +1,72 @@
+@startuml
+class Program {
+  void setup()
+  void loop()
+}
+
+class Led {
+    - pin
+    
+    + toggle()
+    + on()
+    + off()
+}
+
+class RgbLed extends Led {
+    + set_color(red, green, blue)
+}
+
+class Button {
+    - pin
+    - last_press_down_timestamp
+
+    + has_been_pressed()
+}
+
+class RelationStateFacade {
+    - rgbLed: RgbLed
+    - button: Button
+    
+    + loop()
+}
+
+class RelationMatchContext {
+    - IMatchState state
+    - Led[] leds 
+    
+    + RelationMatchContext(IMatchState initialState)
+    + transition_state(IMatchState state)
+    + scan_tag()
+}
+
+interface IMatchState {
+    + scan_tag()
+}
+
+class SetupState {
+    - RelationMatchContext context
+    + set_context(RelationMatchContext context)
+    + scan_tag()
+}
+
+class ReadyState {
+    - RelationMatchContext context
+    + set_context(RelationMatchContext context)
+    + scan_tag()
+}
+
+RgbLed --|> Led
+RelationStateFacade o-- Button
+RelationStateFacade o-- RgbLed
+RelationMatchContext o-- IMatchState
+SetupState ..|> IMatchState
+SetupState o-- Led
+ReadyState ..|> IMatchState
+ReadyState o-- Led
+
+Program --> RelationStateFacade
+Program --> RelationMatchContext
+Program ..> SetupState
+Program ..> ReadyState
+
+@enduml
