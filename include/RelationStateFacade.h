@@ -1,5 +1,4 @@
-#ifndef RELATIONSTATEFACADE_H
-#define RELATIONSTATEFACADE_H
+#pragma once
 
 #include "Button.h"
 #include "RgbLed.h"
@@ -10,7 +9,8 @@ private:
     Button button;
 
 public:
+    RelationStateFacade();
+    ~RelationStateFacade() = default;
+
     void loop();
 };
-
-#endif // RELATIONSTATEFACADE_H

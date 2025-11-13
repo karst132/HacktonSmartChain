@@ -1,6 +1,11 @@
 #include "states/SetupState.h"
+#include "RelationMatchContext.h"
 
-void SetupState::set_context(RelationMatchContext context) {
+SetupState::SetupState() 
+    : context(nullptr), leds(nullptr) {
+}
+
+void SetupState::set_context(RelationMatchContext* context) {
     this->context = context;
 }
 

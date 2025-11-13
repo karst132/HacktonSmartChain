@@ -1,16 +1,15 @@
-#ifndef RGBLED_H
-#define RGBLED_H
+#pragma once
 
-class RgbLed {
+#include "Led.h"
+
+class RgbLed : public Led {
 private:
-    int redPin;
     int greenPin;
     int bluePin;
 
 public:
-    void on();
-    void off();
+    explicit RgbLed(int redPin = -1, int greenPin = -1, int bluePin = -1);
+    ~RgbLed() override = default;
+
     void set_color(int red, int green, int blue);
 };
-
-#endif // RGBLED_H

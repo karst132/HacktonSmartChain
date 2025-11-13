@@ -1,17 +1,19 @@
-#ifndef SETUPSTATE_H
-#define SETUPSTATE_H
+#pragma once
 
-#include "RelationMatchContext.h"
-#include "states/IMatchState.h"
+#include "IMatchState.h"
+
+class RelationMatchContext;  // Forward declaration
+class Led;
 
 class SetupState : public IMatchState {
 private:
-    RelationMatchContext context;
-    Led* leds[10]; // Assuming a maximum of 10 LEDs, adjust as necessary
+    RelationMatchContext* context;
+    Led** leds;
 
 public:
-    void set_context(RelationMatchContext context);
-    void scan_tag();
-};
+    SetupState();
+    ~SetupState() override = default;
 
-#endif // SETUPSTATE_H
+    void set_context(RelationMatchContext* context);
+    void scan_tag() override;
+};

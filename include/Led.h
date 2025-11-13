@@ -1,8 +1,14 @@
+#pragma once
+
 class Led {
 private:
     int pin;
 
 public:
-    void on();
-    void off();
+    explicit Led(int pin = -1);
+    virtual ~Led() = default;
+
+    virtual void toggle();
+    virtual void on();
+    virtual void off();
 };

@@ -1,6 +1,11 @@
 #include "states/ReadyState.h"
+#include "RelationMatchContext.h"
 
-void ReadyState::set_context(RelationMatchContext context) {
+ReadyState::ReadyState() 
+    : context(nullptr), leds(nullptr) {
+}
+
+void ReadyState::set_context(RelationMatchContext* context) {
     this->context = context;
 }
 

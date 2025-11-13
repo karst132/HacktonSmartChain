@@ -1,18 +1,19 @@
-#ifndef READY_STATE_H
-#define READY_STATE_H
+#pragma once
 
 #include "IMatchState.h"
-#include "RelationMatchContext.h"
-#include "Led.h"
+
+class RelationMatchContext;  // Forward declaration
+class Led;
 
 class ReadyState : public IMatchState {
 private:
-    RelationMatchContext context;
-    Led* leds[];
+    RelationMatchContext* context;
+    Led** leds;
 
 public:
-    void set_context(RelationMatchContext context);
-    void scan_tag();
-};
+    ReadyState();
+    ~ReadyState() override = default;
 
-#endif // READY_STATE_H
+    void set_context(RelationMatchContext* context);
+    void scan_tag() override;
+};
