@@ -2,17 +2,17 @@
 
 #include "IMatchState.h"
 
-class RelationMatchContext;  // Forward declaration
 class ILed;
+class INFC;
 
 class SetupState : public IMatchState {
 private:
-    RelationMatchContext* context;
     ILed** leds;
+    int ledCount;
+    INFC* nfc;
 
 public:
-    SetupState();
+    SetupState(ILed** leds, int ledCount, INFC* nfc);
 
-    void set_context(RelationMatchContext* context);
     void scan_tag() override;
 };

@@ -2,12 +2,11 @@
 
 #include "states/IMatchState.h"
 #include "ILed.h"
+#include "INFC.h"
 
 class RelationMatchContext {
 private:
     IMatchState* state;
-    ILed** leds;
-    int ledCount;
 
 public:
     explicit RelationMatchContext(IMatchState* initialState);

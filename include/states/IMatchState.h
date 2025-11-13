@@ -1,5 +1,7 @@
 #pragma once
 
+class RelationMatchContext;  // Forward declaration
+
 class IMatchState {
 public:
     virtual ~IMatchState() = default;

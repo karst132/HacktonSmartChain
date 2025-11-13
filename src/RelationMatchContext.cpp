@@ -1,14 +1,21 @@
 #include "RelationMatchContext.h"
+#include "states/IMatchState.h"
+#include <Arduino.h>
 
-RelationMatchContext::RelationMatchContext(IMatchState* initialState) : state(initialState) {
-    // Constructor implementation
+RelationMatchContext::RelationMatchContext(IMatchState* initialState) 
+    : state(initialState) {
+    Serial.println("RelationMatchContext initialized with state pattern");
 }
 
 void RelationMatchContext::transition_state(IMatchState* state) {
-    this->state = state;
-    // Transition state implementation
+    if (state != nullptr) {
+        this->state = state;
+        Serial.println("State transitioned");
+    }
 }
 
 void RelationMatchContext::scan_tag() {
-    // Scan tag implementation
+    if (state != nullptr) {
+        state->scan_tag();
+    }
 }
