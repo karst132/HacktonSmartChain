@@ -11,10 +11,9 @@ const int BUTTON_PIN = 12;
 
 const int RGB_COLORS[][3] = {
     {255, 0, 0},     
-    {0, 255, 0},     
-    {0, 0, 255}      
+    {0, 255, 0}     
 };
-const int COLOR_COUNT = 3;
+const int COLOR_COUNT = 2;
 
 // Global instances
 IRgbLed* rgbLed = new RgbLed(RGB_RED_PIN, RGB_GREEN_PIN, RGB_BLUE_PIN);
