@@ -9,6 +9,13 @@ const int RGB_GREEN_PIN = 10;
 const int RGB_BLUE_PIN = 11;
 const int BUTTON_PIN = 12;
 
+const int RGB_COLORS[][3] = {
+    {255, 0, 0},     
+    {0, 255, 0},     
+    {0, 0, 255}      
+};
+const int COLOR_COUNT = 3;
+
 // Global instances
 IRgbLed* rgbLed = new RgbLed(RGB_RED_PIN, RGB_GREEN_PIN, RGB_BLUE_PIN);
 IButton* button = new Button(BUTTON_PIN);
@@ -17,8 +24,7 @@ RelationStateFacade* facade = nullptr;
 void setup() {
     Serial.begin(115200);
     
-    // Initialize the facade with interface pointers
-    facade = new RelationStateFacade(rgbLed, button);
+    facade = new RelationStateFacade(rgbLed, button, (int(*)[3])RGB_COLORS, COLOR_COUNT);
 }
 
 void loop() {
@@ -26,5 +32,5 @@ void loop() {
     if (facade != nullptr) {
         facade->loop();
     }
-    delay(1000);
+    delay(500);
 }
