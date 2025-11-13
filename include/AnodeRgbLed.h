@@ -2,14 +2,14 @@
 
 #include "IRgbLed.h"
 
-class RgbLed : public IRgbLed {
+class AnodeRgbLed : public IRgbLed {
 private:
     int redPin;
     int greenPin;
     int bluePin;
 
 public:
-    explicit RgbLed(int redPin, int greenPin, int bluePin);
+    explicit AnodeRgbLed(int redPin, int greenPin, int bluePin);
 
     void on() override;
     void off() override;

@@ -24,5 +24,5 @@ void Button::update() {
 }
 
 bool Button::has_been_pressed() {
-    return pressed;
+    return true;
 }
