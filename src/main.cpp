@@ -5,6 +5,7 @@
 #include "MFRC522NfcScanner.h"
 #include "RelationMatchContext.h"
 #include "states/SetupState.h"
+#include "states/ReadyState.h"
 
 // Pin definitions
 const int RGB_RED_PIN = A0;
@@ -53,8 +54,9 @@ void setup() {
     ((MFRC522NfcScanner*)nfc)->init();
 
 
-    IMatchState* initialState = new SetupState(nullptr, 0, nfc, NFC_PAIRING_BLOCK, NFC_PAIRING_SECRET);
-    matchContext = new RelationMatchContext(initialState);
+    IMatchState* readyState = new ReadyState(nullptr, 0, nfc, NFC_PAIRING_BLOCK, NFC_PAIRING_SECRET);
+    IMatchState* setupState = new SetupState(nullptr, 0, nfc, NFC_PAIRING_BLOCK, NFC_PAIRING_SECRET, readyState);
+    matchContext = new RelationMatchContext(setupState);
     
 
     facade = new RelationStateFacade(rgbLed, button, (int(*)[3])RGB_COLORS, COLOR_COUNT);
