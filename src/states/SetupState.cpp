@@ -45,7 +45,6 @@ void SetupState::scan_tag(RelationMatchContext* context) {
     Serial.print(": ");
     Serial.println(chainNumber);
     
-    // TODO: Indicate success via LEDs
     for (int i = 1; i < ledCount; i += 2) {
         if (leds[i] != nullptr) {
             leds[i]->on(); 

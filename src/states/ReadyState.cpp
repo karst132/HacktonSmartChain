@@ -42,7 +42,9 @@ void ReadyState::scan_tag(RelationMatchContext* context) {
         return;
     }
     
-    Serial.print("ReadyState: Chain number read from block 5: ");
+    Serial.print("ReadyState: Chain number read from block ");
+    Serial.print(pairingBlock);
+    Serial.print(": ");
     Serial.println(readData[0]);
 
     int distance = calculate_distance_wrapping(chainNumber, readData[0]);
