@@ -41,7 +41,7 @@ void SetupState::scan_tag(RelationMatchContext* context) {
     Serial.print(": ");
     Serial.println(chainNumber);
     
-    SetupState::turn_half_leds_on(false); 
+    SetupState::turn_off_all_leds();
     
     context->transition_state(nextState);
     Serial.println("SetupState: Transitioning to Next State");
@@ -58,5 +58,14 @@ void SetupState::turn_half_leds_on(bool even) {
         } else {
             leds[i]->off();
         }
+    }
+}
+
+void SetupState::turn_off_all_leds() {
+    for (int i = 0; i < ledCount; ++i) {
+        if (leds[i] == nullptr) {
+            continue;
+        }
+        leds[i]->off();
     }
 }

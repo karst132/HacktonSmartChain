@@ -16,6 +16,7 @@ private:
     IMatchState* nextState;
 
     void turn_half_leds_on(bool even);
+    void turn_off_all_leds();
 public:
     SetupState(ILed** leds, int ledCount, INfcScanner* nfc, 
                uint8_t pairingBlock, uint8_t chainNumber,
