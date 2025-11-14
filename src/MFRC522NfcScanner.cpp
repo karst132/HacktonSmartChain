@@ -5,6 +5,11 @@
 MFRC522NfcScanner::MFRC522NfcScanner(uint8_t chipSelectPin, uint8_t resetPin)
     : mfrc522(chipSelectPin, resetPin) {
     lastTagUid[0] = '\0';
+    
+    // Initialize default key (factory default for MIFARE Classic)
+    for (byte i = 0; i < 6; i++) {
+        key.keyByte[i] = 0xFF;
+    }
 }
 
 void MFRC522NfcScanner::init() {
@@ -49,9 +54,43 @@ const char* MFRC522NfcScanner::get_last_tag_uid() {
     return lastTagUid;
 }
 
+bool MFRC522NfcScanner::authenticate(uint8_t block) {
+    // Determine the sector trailer block for the given block
+    // For MIFARE Classic 1K: blocks 0-63, grouped in sectors of 4 blocks
+    // Sector trailer is the last block of each sector (blocks 3, 7, 11, 15, etc.)
+    uint8_t trailerBlock = ((block / 4) * 4) + 3;
+    
+    // Authenticate using Key A
+    MFRC522::StatusCode status = mfrc522.PCD_Authenticate(
+        MFRC522::PICC_CMD_MF_AUTH_KEY_A,
+        trailerBlock,
+        &key,
+        &(mfrc522.uid)
+    );
+    
+    if (status != MFRC522::STATUS_OK) {
+        Serial.print("Authentication failed: ");
+        Serial.println(mfrc522.GetStatusCodeName(status));
+        return false;
+    }
+    
+    return true;
+}
+
 bool MFRC522NfcScanner::write_data(uint8_t block, const uint8_t* data, uint8_t length) {
     if (length > 16) {
         Serial.println("Error: Data too large (max 16 bytes per block)");
+        return false;
+    }
+    
+    // Check if trying to write to sector trailer (not allowed)
+    if ((block + 1) % 4 == 0) {
+        Serial.println("Error: Cannot write to sector trailer block");
+        return false;
+    }
+    
+    // Authenticate before writing
+    if (!authenticate(block)) {
         return false;
     }
     
@@ -78,6 +117,11 @@ bool MFRC522NfcScanner::write_data(uint8_t block, const uint8_t* data, uint8_t l
 bool MFRC522NfcScanner::read_data(uint8_t block, uint8_t* data, uint8_t length) {
     if (length > 16) {
         Serial.println("Error: Buffer too large (max 16 bytes per block)");
+        return false;
+    }
+    
+    // Authenticate before reading
+    if (!authenticate(block)) {
         return false;
     }
     
