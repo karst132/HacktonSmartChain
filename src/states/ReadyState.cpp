@@ -81,3 +81,9 @@ void ReadyState::turn_off_all_leds() {
         leds[i]->off();
     }
 }
+
+int ReadyState::calculate_distance_wrapping(uint8_t a, uint8_t b) {
+    int directDistance = abs(static_cast<int>(a) - static_cast<int>(b));
+    int wrappedDistance = 256 - directDistance;
+    return (directDistance < wrappedDistance) ? directDistance : wrappedDistance;
+}
