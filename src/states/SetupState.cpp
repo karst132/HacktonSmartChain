@@ -15,11 +15,7 @@ SetupState::SetupState(ILed** leds, int ledCount, INfcScanner* nfc,
       nextState(nextState) {
     Serial.println("SetupState: Waiting for NFC tags to register");
 
-    for (int i = 0; i < ledCount; i += 2) {
-        if (leds[i] != nullptr) {
-            leds[i]->on(); 
-        }
-    }
+    SetupState::turn_half_leds_on(true); 
 }
 
 void SetupState::scan_tag(RelationMatchContext* context) {
@@ -45,11 +41,7 @@ void SetupState::scan_tag(RelationMatchContext* context) {
     Serial.print(": ");
     Serial.println(chainNumber);
     
-    for (int i = 1; i < ledCount; i += 2) {
-        if (leds[i] != nullptr) {
-            leds[i]->on(); 
-        }
-    }
+    SetupState::turn_half_leds_on(false); 
     
     context->transition_state(nextState);
     Serial.println("SetupState: Transitioning to Next State");

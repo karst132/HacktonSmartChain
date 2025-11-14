@@ -51,14 +51,14 @@ void ReadyState::scan_tag(RelationMatchContext* context) {
     Serial.print("ReadyState: Calculated distance: ");
     Serial.println(distance);
 
-    int mappedDistance = map(distance, 0, 255, 0, ledCount);
+    int mappedDistance = map(distance, 0, 128, 0, ledCount);
+    int calculatedLedCount = (mappedDistance - ledCount) * -1;
     Serial.print("ReadyState: Mapped distance to LED count: ");
-    Serial.println(mappedDistance);
+    Serial.println(calculatedLedCount);
 
-    turn_on_leds(mappedDistance);
+    turn_on_leds(calculatedLedCount);
     ledTurnOnTime = millis();
     ledsActive = true;
-    Serial.println("ReadyState: LEDs updated based on distance");
 }
 
 void ReadyState::turn_on_leds(int amount) {

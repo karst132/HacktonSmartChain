@@ -43,11 +43,6 @@ void MFRC522NfcScanner::read_tag() {
     }
     uidString.toUpperCase();
     uidString.toCharArray(lastTagUid, sizeof(lastTagUid));
-    
-    // Halt PICC
-    mfrc522.PICC_HaltA();
-    // Stop encryption on PCD
-    mfrc522.PCD_StopCrypto1();
 }
 
 const char* MFRC522NfcScanner::get_last_tag_uid() {
@@ -111,6 +106,12 @@ bool MFRC522NfcScanner::write_data(uint8_t block, const uint8_t* data, uint8_t l
     
     Serial.print("Data written to block ");
     Serial.println(block);
+    
+    // Halt PICC
+    mfrc522.PICC_HaltA();
+    // Stop encryption on PCD
+    mfrc522.PCD_StopCrypto1();
+
     return true;
 }
 
@@ -144,5 +145,11 @@ bool MFRC522NfcScanner::read_data(uint8_t block, uint8_t* data, uint8_t length) 
     
     Serial.print("Data read from block ");
     Serial.println(block);
+    
+    // Halt PICC
+    mfrc522.PICC_HaltA();
+    // Stop encryption on PCD
+    mfrc522.PCD_StopCrypto1();
+
     return true;
 }
